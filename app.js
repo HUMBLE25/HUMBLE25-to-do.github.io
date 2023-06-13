@@ -1,18 +1,25 @@
 
-const loginForm =document.querySelector("#login-form")
+const loginForm =document.querySelector("#login-form");
 const logInput = document.querySelector("#login-form input");
 
+const link =document.querySelector("a");
 
-const onLoginSubmit= (info) => {
-   
-    // submit의 기본동작은 새로고침인데 이때문에 입력받은 정보를 받아올수 없다.
-    // 브라우저의 기본동작을 막아야하는데 이를 도와주는 매서드가 있다.
-    info.preventDefault(); 
-    // 브라우저의 기본동작을 막는 매서드이다.
+const onLoginSubmit= (event) => {
+    event.preventDefault(); 
     const userName = logInput.value;
     console.log(`hello ${userName}`);
 }
 
+const handleLinkClick= (event)=>{
+    event.preventDefault();
+    console.dir(event);
+
+}
+
 loginForm.addEventListener("submit",onLoginSubmit)
+link.addEventListener("click",handleLinkClick)
+
+// 이벤트리스너의 두번째 인자로 들어가는 함수는 브라우저가 실행시켜준다.
+// 그리고 방금 일어난 이벤트 정보를 객체로 담아준다.
 
 
