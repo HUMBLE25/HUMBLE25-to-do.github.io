@@ -5,8 +5,7 @@ const greeting =document.querySelector("#greeting")
 
 const HIDDEN_CLASSNAME = "hidden";
 const USERNAME_KEY = "username"
-const saveUsername =localStorage.getItem(USERNAME_KEY);
-
+const savedUsername =localStorage.getItem(USERNAME_KEY);
 
 const onLoginSubmit= (event) => {
     event.preventDefault(); 
@@ -16,22 +15,24 @@ const onLoginSubmit= (event) => {
     loginForm.classList.add(HIDDEN_CLASSNAME);
 
     localStorage.setItem(USERNAME_KEY,userName);
-    paintGreeting({userName});
+
+    paintGreetings(userName);
 };
 
-const paintGreeting = ({name})=>{
-    greeting.innerText = `hello ${name}!!`;
+const paintGreetings = (savedUsername)=>{
+    
+    greeting.innerText = `hello ${savedUsername}!!`;
+
     greeting.classList.remove(HIDDEN_CLASSNAME);
 }
 
-if(!saveUsername){
+if(!savedUsername){
     //show the form
 
     loginForm.classList.remove(HIDDEN_CLASSNAME);
-    loginForm.addEventListener("submit",onLoginSubmit);
 
+    loginForm.addEventListener("submit",onLoginSubmit);
 }else{
     // show the greeting
-    
-    paintGreeting({saveUsername})
+    paintGreetings(savedUsername);
 };
