@@ -15,6 +15,21 @@ const saveToDo = () => {
 const deleteToDo = (event)=>{
     const li = event.target.parentElement;
 
+    const toDelete = li.firstChild.innerText;
+
+    const id= SavedToDs.indexOf(toDelete);
+    
+    SavedToDs.splice(id,1);
+
+    // for(let id in SavedToDs){
+    //     if(toDelete === SavedToDs[id]){
+    //         SavedToDs.splice(id,1);
+    //         break;
+    //     };
+    // }
+
+    localStorage.setItem(TODOS_KEY,JSON.stringify(SavedToDs));
+
     li.remove();
 }
 
@@ -48,6 +63,7 @@ const handleToDoSubmit = (event) => {
     toDos.push(newToDo);
 
     paintTodo(newToDo);
+
     saveToDo();
 }
 
