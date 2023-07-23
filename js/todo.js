@@ -4,9 +4,9 @@ const toDoLists = document.getElementById("todo-list");
 
 const TODOS_KEY = "todos"
 
-const SavedToDs = JSON.parse(localStorage.getItem(TODOS_KEY));
+const SavedToDos = JSON.parse(localStorage.getItem(TODOS_KEY));
 
-const toDos = SavedToDs ? SavedToDs : [];
+let toDos = SavedToDos ? SavedToDos : [];
 
 const saveToDo = () => {
     localStorage.setItem(TODOS_KEY,JSON.stringify(toDos))
@@ -14,31 +14,23 @@ const saveToDo = () => {
 
 const deleteToDo = (event)=>{
     const li = event.target.parentElement;
+    //const를 사용하고 싶다면 계속 불러와야 한다.
+    //let을 사용하면 재할당을 통해 쉽게 가능하다.
+    // const SavedToDos = JSON.parse(localStorage.getItem(TODOS_KEY));
 
-    const toDelete = li.firstChild.innerText;
+    toDos = toDos.filter((el)=>el['id'] !== +li['id']);
 
-    const id= SavedToDs.indexOf(toDelete);
-    
-    SavedToDs.splice(id,1);
-
-    // for(let id in SavedToDs){
-    //     if(toDelete === SavedToDs[id]){
-    //         SavedToDs.splice(id,1);
-    //         break;
-    //     };
-    // }
-
-    localStorage.setItem(TODOS_KEY,JSON.stringify(SavedToDs));
+    localStorage.setItem(TODOS_KEY,JSON.stringify(toDos));
 
     li.remove();
 }
 
 const paintTodo = (newTodo) => {
     const li = document.createElement("li");
-
+    li.id = newTodo.id;
     const span = document.createElement("span");
 
-    span.innerText = newTodo;
+    span.innerText = newTodo['text'];
 
     const button =document.createElement("button");
 
@@ -60,15 +52,20 @@ const handleToDoSubmit = (event) => {
 
     toDoInput.value = "";
 
-    toDos.push(newToDo);
+    const newTodoObj = {
+        text: newToDo,
+        id: Date.now(),
+    }
 
-    paintTodo(newToDo);
+    toDos.push(newTodoObj);
+
+    paintTodo(newTodoObj);
 
     saveToDo();
 }
 
 toDoForm.addEventListener("submit",handleToDoSubmit);
 
-if(SavedToDs){
-    SavedToDs.forEach(paintTodo);
+if(SavedToDos){
+    SavedToDos.forEach(paintTodo);
 }
